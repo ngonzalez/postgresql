@@ -20,7 +20,11 @@ RUN useradd -m $USER -s /bin/bash
 RUN apt-get install -yq sudo
 RUN echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# postgresql
+# Entrypoint
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+
+# PostgreSQL
 ARG POSTGRESQL_VERSION="16"
 ENV POSTGRESQL_VERSION $POSTGRESQL_VERSION
 RUN apt-get install -yqq curl gnupg2
@@ -37,8 +41,5 @@ ENV POSTGRESQL_PORT $postgresql_port
 EXPOSE $POSTGRESQL_PORT
 
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh", "--server"]
