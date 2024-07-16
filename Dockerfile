@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM --platform=linux/arm64 debian:bookworm
 
 # apt
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,6 +33,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt sid-pgdg main" > /etc/apt/
 RUN apt-get update -yqq && apt-get install -yqq postgresql-$POSTGRESQL_VERSION libpq-dev
 RUN echo "host  all all  0.0.0.0/0      trust" >> /etc/postgresql/$POSTGRESQL_VERSION/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/$POSTGRESQL_VERSION/main/postgresql.conf
+RUN echo "log_min_messages=error" >> /etc/postgresql/$POSTGRESQL_VERSION/main/postgresql.conf
 RUN su -c "/usr/lib/postgresql/$POSTGRESQL_VERSION/bin/initdb -D /var/lib/postgresql/$POSTGRESQL_VERSION/data" $USER
 
 ARG postgresql_port="5432"
