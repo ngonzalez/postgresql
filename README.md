@@ -1,7 +1,7 @@
 #### postgresql-docker
 
 ```shell
-docker build . -f Dockerfile -t postgresql
+docker build . -f Dockerfile -t postgresql --no-cache
 ```
 
 ```shell
