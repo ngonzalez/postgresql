@@ -1,8 +1,8 @@
 FROM --platform=linux/arm64 debian:bookworm
 
 # apt
-ENV DEBIAN_FRONTEND noninteractive
-RUN echo 'deb http://ftp.fr.debian.org/debian/ unstable main contrib non-free' > /etc/apt/sources.list
+ENV DEBIAN_FRONTEND=noninteractive
+RUN echo 'deb http://mirrors.ocf.berkeley.edu/debian/ unstable main contrib non-free' > /etc/apt/sources.list
 RUN apt-get update -yqq
 RUN apt-get dist-upgrade -yq
 RUN apt-get upgrade -yq
@@ -14,7 +14,7 @@ RUN dpkg-reconfigure debconf
 
 # USER
 ARG user="postgres"
-ENV USER $user
+ENV USER=$user
 RUN echo "USER=$USER" > /etc/profile.d/user.sh
 RUN useradd -m $USER -s /bin/bash
 RUN apt-get install -yq sudo
@@ -26,7 +26,7 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 # PostgreSQL
 ARG POSTGRESQL_VERSION="16"
-ENV POSTGRESQL_VERSION $POSTGRESQL_VERSION
+ENV POSTGRESQL_VERSION=$POSTGRESQL_VERSION
 RUN apt-get install -yqq curl gnupg2
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt sid-pgdg main" > /etc/apt/sources.list.d/pgdg.list
@@ -37,7 +37,7 @@ RUN echo "log_min_messages=error" >> /etc/postgresql/$POSTGRESQL_VERSION/main/po
 RUN su -c "/usr/lib/postgresql/$POSTGRESQL_VERSION/bin/initdb -D /var/lib/postgresql/$POSTGRESQL_VERSION/data" $USER
 
 ARG postgresql_port="5432"
-ENV POSTGRESQL_PORT $postgresql_port
+ENV POSTGRESQL_PORT=$postgresql_port
 
 EXPOSE $POSTGRESQL_PORT
 
