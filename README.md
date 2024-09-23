@@ -1,7 +1,7 @@
 #### Build postgresql image with Docker
 
 ```shell
-docker builder prune
+docker buildx prune
 ```
 
 ```shell
