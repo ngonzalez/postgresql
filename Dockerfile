@@ -28,8 +28,8 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ARG POSTGRESQL_VERSION="16"
 ENV POSTGRESQL_VERSION=$POSTGRESQL_VERSION
 RUN apt-get install -yqq curl gnupg2
-RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt sid-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
 RUN apt-get update -yqq && apt-get install -yqq postgresql-$POSTGRESQL_VERSION libpq-dev
 RUN echo "host  all all  0.0.0.0/0      trust" >> /etc/postgresql/$POSTGRESQL_VERSION/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/$POSTGRESQL_VERSION/main/postgresql.conf
