@@ -1,9 +1,17 @@
-#### Build PostgreSQL image with Docker
+#### Build redis image with Docker
 
 ```shell
-docker build . --no-cache -f Dockerfile -t postgresql
+docker buildx prune
 ```
 
 ```shell
-docker run --rm -it -p 5432:5432 postgresql
+docker build . --no-cache -f Dockerfile -t ngonzalez121/postgresql
+```
+
+```shell
+docker run --rm -it -p 5432:5432 ngonzalez121/postgresql
 ``` 
+
+```shell
+docker push ngonzalez121/postgresql
+```

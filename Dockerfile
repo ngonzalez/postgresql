@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 debian:bookworm
+FROM --platform=linux/arm64 debian:bookworm AS build_arm64
 
 # apt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -25,7 +25,7 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 
 # PostgreSQL
-ARG POSTGRESQL_VERSION="16"
+ARG POSTGRESQL_VERSION="17"
 ENV POSTGRESQL_VERSION=$POSTGRESQL_VERSION
 RUN apt-get install -yqq curl gnupg2
 RUN curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql.gpg
