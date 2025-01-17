@@ -1,4 +1,4 @@
-#### Build redis image with Docker
+#### Build PostgreSQL image with Docker
 
 ```shell
 docker buildx prune
